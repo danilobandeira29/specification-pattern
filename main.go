@@ -2,20 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/danilobandeira29/specification-pattern/repository"
+	repositoryV2 "github.com/danilobandeira29/specification-pattern/repository/v2"
 )
 
 func main() {
-	repo := repository.New()
-	nameContains := repository.NameContainsSpecification{
-		Name: "Shoes",
-	}
-	priceBelow := repository.PriceBelowSpecification{Value: 121.00}
-	and := repository.AndSpecification{
-		Left:  nameContains,
-		Right: priceBelow,
-	}
-	products := repo.FindBy(and)
+	repo := repositoryV2.New()
+	spec := repositoryV2.NameContains("Shoes").
+		And(repositoryV2.PriceBelow(121.00))
+	products := repo.FindBy(spec)
 	for _, p := range products {
 		fmt.Println(p)
 	}
